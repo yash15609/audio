@@ -40,20 +40,21 @@ wavfilehelper = WavFileHelper()
 
 ALLOWED_EXTENSIONS = {'wav'}
 
-app = Flask(__name__)
+application = Flask(__name__)
 audiodata = []
 
 
 
-app.config['SECRET_KEY'] = '4d5482dc5b0411eb983b3024a9431551'
+application.config['SECRET_KEY'] = '4d5482dc5b0411eb983b3024a9431551'
 
-app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+mysqlconnector://root:@localhost/audio-recognition'.format(user='root', password='', server='localhost', database='audio-recognition')
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'audio-recognition'
-mysql = MySQL(app) 
-db = SQLAlchemy(app)
+application.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+mysqlconnector://root:@localhost/audio-recognition'.format(user='root', password='', server='localhost', database='audio-recognition')
+application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+application.config['MYSQL_HOST'] = 'localhost'
+application.config['MYSQL_USER'] = 'root'
+application.config['MYSQL_PASSWORD'] = ''
+application.config['MYSQL_DB'] = 'audio-recognition'
+mysql = MySQL(application) 
+db = SQLAlchemy(application)
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -66,13 +67,13 @@ class Signup(db.Model):
 
 
 	
-@app.route("/", methods=['GET', 'POST'])
+@application.route("/index", methods=['GET', 'POST'])
 def home():
     return render_template('index.html')
 
 
 
-@app.route("/register", methods=['GET', 'POST'])
+@application.route("/register", methods=['GET', 'POST'])
 def register():
 	form = RegistrationForm(request.form)
 	if request.method=='POST' and form.validate_on_submit():
@@ -87,7 +88,7 @@ def register():
 		return redirect(url_for('login'))
 	return render_template('register.html', title='Register', form=form)
 
-@app.route("/login", methods=['GET', 'POST'])
+@application.route("/login", methods=['GET', 'POST'])
 def login():
 	form = LoginForm(request.form)
 	if request.method=='POST' and form.validate_on_submit():
@@ -108,13 +109,13 @@ def login():
 			flash('Login Unsuccessful. Please check Email and password', 'danger')
 	return render_template('login.html', title='Login', form=form)
 
-@app.route("/index1")
+@application.route("/index1")
 def index1():
 	if g.email:
 		return render_template('index1.html')
 	return redirect(url_for('login'))
 
-@app.route("/analysis")
+@application.route("/analysis")
 def analysis():
 	if g.email:  
 		return render_template('analysis.html')
@@ -126,7 +127,7 @@ def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-@app.route("/analysis",methods=['GET', 'POST'])
+@application.route("/analysis",methods=['GET', 'POST'])
 def upload():
 	if g.email:
 		if request.method=='POST':
@@ -136,7 +137,7 @@ def upload():
 				type_sound=predict(os.path.join("uploads",file.filename))
 				print(type_sound)
 				data = wavfilehelper.read_file_properties((os.path.join("uploads",file.filename)))
-				audiodata.append(data)
+				audiodata.applicationend(data)
 				audiodf = pd.DataFrame(audiodata, columns=['num_channels','sample_rate','bit_depth'])
 				element = audiodata.clear()
 				print(element)
@@ -158,13 +159,13 @@ def upload():
 		
 
 
-@app.before_request
+@application.before_request
 def before_request():
 	g.email=None
 	if 'email' in session:
 		g.email=session['email']
 
-@app.route("/logout")
+@application.route("/logout")
 def logout():
 	session.pop('loggedin', None)
 	session.pop('email', None)
@@ -180,6 +181,6 @@ def logout():
 			
 			
 if __name__ == '__main__':
-	app.debug = True
-	app.run()
+	application.debug = True
+	application.run()
 

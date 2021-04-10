@@ -7,6 +7,7 @@ Flask-WTF
 Jinja2
 librosa
 keras
+mysql-connector-python
 mysql
 mysql-connector
 mysqlclient

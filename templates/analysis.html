@@ -1,0 +1,133 @@
+{% extends "layout1.html" %}
+{% block body%}
+
+<html>
+    <head>
+        <style>
+            .center {
+  margin: 0;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.button {
+  background-color:red;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+        body { 
+			text-align: center; 
+		} 
+		
+		h1 { 
+			color: green; 
+		} 
+        </style>
+    </head>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+
+
+ 
+
+<body> 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-danger">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+<center>
+
+	
+	<br>
+    <br>
+	<form action="{{url_for('upload')}}" method="POST" enctype="multipart/form-data">  
+	<!----	<input type="file" name="audio" accept="audio/* ">-->
+    
+ <!--<input type="file" name="file" accept=".wav" />
+		<!--<button type="button" class="btn btn-primary btn-lg " id="btn-predict-ResNet50">CNN Predict!</button>-->
+		<!--<input type="submit" class="button">-->
+        <div class="col-md-4">
+            <div class="content-section">
+              <h2>Upload Audio File</h2>
+              <p class='text-muted'>For Audio Recognition.
+
+                <ul class="list-group">
+
+                  <form method="POST" action = "" enctype = "multipart/form-data">
+                    <li class="list-group-item list-group-item-light">
+                      <div class="form-group">
+                        <div>
+                          <input class="btn btn-outline-info" id="submit" type="file" name="file" accept=".wav" style="width: 265px;"/>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                          <input type="submit" class="btn btn-outline-info">
+                      </div>
+                    </li>
+                  </form>
+
+                </ul>
+
+              </p>
+            </div>
+          </div>
+	</form>
+	
+</center>	
+</body> 
+    </br>
+</br>
+</br>
+</br>
+</br>
+<center><h1><b>{{prediction_text}}</b></h1></center>
+<center><h1><b>{{abc}}</b></h1></center></br>
+<center>
+{% for table in tables %}
+            {{ table|safe }}
+{% endfor %}
+</center>
+</br><center><h1><b>{{xyz}}</b></h1></center>
+<center></br><img src={{url}}  height="400px" width="900px">
+</br>
+</br>
+
+</br>
+<!--{% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for  message in messages %}
+                        
+                            {{ message }}
+                       
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}-->
+    
+</br>
+</br>
+</br>
+
+</br>
+
+</html>
+
+
+{% endblock %}

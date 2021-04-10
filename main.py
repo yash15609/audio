@@ -66,7 +66,7 @@ class Signup(db.Model):
 
 
 	
-@app.route("/index", methods=['GET', 'POST'])
+@app.route("/", methods=['GET', 'POST'])
 def home():
     return render_template('index.html')
 

@@ -12,5 +12,4 @@ mysql-connector
 mysqlclient
 numpy
 SQLAlchemy
-tensorflow
 WTForms
